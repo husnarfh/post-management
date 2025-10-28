@@ -17,7 +17,7 @@ Simple Post Management with CRUD (Create, Read, Update, Delete) operations and A
 - PORT=3000
 - DATABASE_URL=<your_database_connection_string>
 - JWT_SECRET=<your_jwt_secret>
-4. Create a `.env.local` file in the frontend project root with at least:
+4. Create a `.env` file in the frontend project root with at least:
 - NEXT_PUBLIC_LOCAL_API_URL=http://localhost:3001
 
 ## Running
