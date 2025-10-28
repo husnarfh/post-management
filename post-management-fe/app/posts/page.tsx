@@ -18,8 +18,10 @@ export default function Main() {
   const [isExpanded, setIsExpanded] = useState(false)
   const [search, setSearch] = useState('')
   const [pagination, setPagination] = useState({})
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const getAllPosts = async () => {
+    setIsLoading(true)
     const res = await fetchData(
       `${process.env.NEXT_PUBLIC_LOCAL_API_URL}/api/posts?search=${search}&page=`
     )
@@ -32,6 +34,8 @@ export default function Main() {
       }
     } catch (err) {
       showToast(err instanceof Error ? err.message : 'Login failed', 'error')
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -65,7 +69,6 @@ export default function Main() {
   }
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     getAllPosts()
   }, [])
 
@@ -99,146 +102,153 @@ export default function Main() {
         </div>
 
         {/* table  */}
-        <div className={`${styles.glass} card w-full shadow-sm`}>
-          <div className="card-body">
-            <div className="overflow-x-auto">
-              <table className="table">
-                {/* head */}
-                <thead>
-                  <tr>
-                    <th>No</th>
-                    <th>Post Name</th>
-                    <th className="w-3xl">Description</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                {posts.length ? (
-                  <tbody>
-                    {/* row 1 */}
-                    {posts.map((post: any, arr) => (
-                      <tr key={post.id}>
-                        <th>{arr + 1}</th>
-                        <td>
-                          <div className="flex items-center gap-3">
-                            <div className="avatar">
-                              <div className="mask mask-squircle h-12 w-12">
-                                <Image
-                                  src={
-                                    post.thumbnail
-                                      ? `${process.env.NEXT_PUBLIC_LOCAL_API_URL}${post.thumbnail}`
-                                      : '/no-image.svg'
-                                  }
-                                  alt="post-thumbnail"
-                                  width={40}
-                                  height={40}
-                                />
+        {isLoading ? (
+          <div className="text-center">
+            <span className="loading loading-dots loading-xl"></span>
+          </div>
+        ) : (
+          <div className={`${styles.glass} card w-full shadow-sm`}>
+            <div className="card-body">
+              <div className="overflow-x-auto">
+                <table className="table">
+                  {/* head */}
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Post Name</th>
+                      <th className="w-3xl">Description</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  {posts.length ? (
+                    <tbody>
+                      {/* row 1 */}
+                      {posts.map((post: any, arr) => (
+                        <tr key={post.id}>
+                          <th>{arr + 1}</th>
+                          <td>
+                            <div className="flex items-center gap-3">
+                              <div className="avatar">
+                                <div className="mask mask-squircle h-12 w-12">
+                                  <Image
+                                    src={
+                                      post.thumbnail
+                                        ? `${process.env.NEXT_PUBLIC_LOCAL_API_URL}${post.thumbnail}`
+                                        : '/no-image.svg'
+                                    }
+                                    alt="post-thumbnail"
+                                    width={40}
+                                    height={40}
+                                  />
+                                </div>
+                              </div>
+                              <div>
+                                <div className="font-bold text-base">
+                                  {post.title}
+                                </div>
+                                <span className="text-xs">
+                                  <i>
+                                    Created by {post.first_name}{' '}
+                                    {post.last_name}
+                                  </i>
+                                </span>
+                                <br />
+                                <span className="text-xs">
+                                  <i>
+                                    on{' '}
+                                    {moment(post.created_at).format(
+                                      'DD MMMM YYYY'
+                                    )}
+                                  </i>
+                                </span>
                               </div>
                             </div>
-                            <div>
-                              <div className="font-bold text-base">
-                                {post.title}
-                              </div>
-                              <span className="text-xs">
-                                <i>
-                                  Created by {post.first_name} {post.last_name}
-                                </i>
-                              </span>
-                              <br />
-                              <span className="text-xs">
-                                <i>
-                                  on{' '}
-                                  {moment(post.created_at).format(
-                                    'DD MMMM YYYY'
-                                  )}
-                                </i>
-                              </span>
+                          </td>
+                          <td>
+                            <p className="longtext">
+                              {isExpanded
+                                ? post.text_description
+                                : `${post.text_description.slice(0, 100)}...`}
+                            </p>
+                            {post.text_description.length > 100 && (
+                              <button
+                                id="toggleButton"
+                                className="btn btn-ghost"
+                                onClick={() => setIsExpanded(!isExpanded)}
+                              >
+                                {isExpanded ? 'Show Less' : 'Show More'}
+                              </button>
+                            )}
+                          </td>
+                          <td className="flex">
+                            <div
+                              className="tooltip tooltip-bottom"
+                              data-tip="View"
+                            >
+                              <button
+                                className="btn btn-ghost btn-xs"
+                                onClick={() => router.push(`/posts/${post.id}`)}
+                              >
+                                <Visibility />
+                              </button>
                             </div>
-                          </div>
-                        </td>
-                        <td>
-                          <p className="longtext">
-                            {isExpanded
-                              ? post.text_description
-                              : `${post.text_description.slice(0, 100)}...`}
-                          </p>
-                          {post.text_description.length > 100 && (
-                            <button
-                              id="toggleButton"
-                              className="btn btn-ghost"
-                              onClick={() => setIsExpanded(!isExpanded)}
-                            >
-                              {isExpanded ? 'Show Less' : 'Show More'}
-                            </button>
-                          )}
-                        </td>
-                        <td className="flex">
-                          <div
-                            className="tooltip tooltip-bottom"
-                            data-tip="View"
-                          >
-                            <button
-                              className="btn btn-ghost btn-xs"
-                              onClick={() => router.push(`/posts/${post.id}`)}
-                            >
-                              <Visibility />
-                            </button>
-                          </div>
 
-                          <div
-                            className="tooltip tooltip-bottom"
-                            data-tip="Edit"
-                          >
-                            <button
-                              className="btn btn-ghost btn-xs"
-                              onClick={() =>
-                                router.push(`/posts/${post.id}/edit`)
-                              }
+                            <div
+                              className="tooltip tooltip-bottom"
+                              data-tip="Edit"
                             >
-                              <Edit />
-                            </button>
-                          </div>
-                          <div
-                            className="tooltip tooltip-bottom"
-                            data-tip="Delete"
-                          >
-                            <button
-                              type="button"
-                              className="btn btn-ghost btn-xs"
-                              onClick={() =>
-                                handleConfirmDelete(post.id, post.title)
-                              }
+                              <button
+                                className="btn btn-ghost btn-xs"
+                                onClick={() =>
+                                  router.push(`/posts/${post.id}/edit`)
+                                }
+                              >
+                                <Edit />
+                              </button>
+                            </div>
+                            <div
+                              className="tooltip tooltip-bottom"
+                              data-tip="Delete"
                             >
-                              <Delete />
-                            </button>
-                          </div>
+                              <button
+                                type="button"
+                                className="btn btn-ghost btn-xs"
+                                onClick={() =>
+                                  handleConfirmDelete(post.id, post.title)
+                                }
+                              >
+                                <Delete />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  ) : (
+                    <tbody key={1}>
+                      <tr>
+                        <td colSpan={4}>
+                          <p className="text-center font-semibold">
+                            <i>Data not available</i>
+                          </p>
                         </td>
                       </tr>
-                    ))}
-                  </tbody>
-                ) : (
-                  <tbody key={1}>
-                    <tr>
-                      <td colSpan={4}>
-                        <p className="text-center font-semibold">
-                          <i>Data not available</i>
-                        </p>
-                      </td>
-                    </tr>
-                  </tbody>
-                )}
-              </table>
+                    </tbody>
+                  )}
+                </table>
 
-              {/* pagination */}
-              <div className="join flex justify-end">
-                <Pagination
-                  totalPages={pagination.totalPages}
-                  currentPage={pagination.page}
-                  search={search}
-                />
+                {/* pagination */}
+                <div className="join flex justify-end">
+                  <Pagination
+                    totalPages={pagination.totalPages}
+                    currentPage={pagination.page}
+                    search={search}
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </>
   )

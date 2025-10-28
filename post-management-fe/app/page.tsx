@@ -7,8 +7,7 @@ import { useRouter } from 'next/navigation'
 import { useAuth } from './lib/auth-context'
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(false)
-  const { login, user, isLoading: authLoading } = useAuth()
+  const { user, isLoading: authLoading } = useAuth()
   const router = useRouter()
 
   useEffect(() => {
@@ -20,8 +19,8 @@ export default function Home() {
   // Show loading while checking auth
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div>Loading...</div>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-300">
+        <div className="text-xl">Loading...</div>
       </div>
     )
   }

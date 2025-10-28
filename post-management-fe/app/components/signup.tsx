@@ -105,7 +105,7 @@ export default function SignUp() {
               required
               name="firstName"
               value={formData.firstName}
-              className="input w-auto my-2"
+              className="input w-full my-2"
               onChange={handleChange}
             />
           </div>
@@ -116,7 +116,7 @@ export default function SignUp() {
               placeholder="Last Name"
               name="lastName"
               value={formData.lastName}
-              className="input w-auto my-2"
+              className="input w-full my-2"
               onChange={handleChange}
             />
           </div>
@@ -188,7 +188,7 @@ export default function SignUp() {
             />
           </label>
         </div>
-        <button className="btn btn-primary btn-block" type="submit">
+        <button className="btn btn-primary btn-block mt-4" type="submit">
           Create an account
         </button>
       </form>

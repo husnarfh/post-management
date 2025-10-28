@@ -7,7 +7,9 @@ export default function Navbar() {
   const { logout, user } = useAuth()
 
   return (
-    <div className={`${styles.glass} navbar bg-base-100 shadow-sm`}>
+    <div
+      className={`${styles.glass} navbar bg-base-100 shadow-sm rounded-none`}
+    >
       <div className="flex-1">
         <a className="btn btn-ghost text-xl">Posts Management</a>
       </div>

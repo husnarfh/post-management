@@ -48,7 +48,7 @@ export default function SignIn() {
         />
         <button
           type="submit"
-          className="btn btn-primary btn-block"
+          className="btn btn-primary btn-block mt-4"
           disabled={isLoading}
         >
           {isLoading ? 'Loading...' : 'Login'}

@@ -14,7 +14,12 @@ export function withAuth<P extends object>(Component: React.ComponentType<P>) {
       }
     }, [user, isLoading, router])
 
-    if (isLoading) return <div>Loading...</div>
+    if (isLoading)
+      return (
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-300">
+          <div className="text-xl">Loading...</div>
+        </div>
+      )
     if (!user) return null
 
     return <Component {...props} />

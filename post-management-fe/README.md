@@ -4,21 +4,18 @@ A Next.js frontend application for the Post Management system (CRUD).
 
 ## Features
 - User authentication (login/register)
-- Post management interface
-- Responsive design
-- Server-side rendering
+- Post management interface (List all posts, Add post, edit post, view post, and delete post)
 - Modern UI with DaisyUI
 
 ## Requirements
-- Node.js 18+ 
+- Node.js 20+ 
 - npm or yarn
-- Backend API running (default: http://localhost:8000)
+- Backend API running (default: http://localhost:3001)
 
 ## Environment Setup
 Create a `.env.local` file with:
 ```env
-NEXT_PUBLIC_API_URL=http://localhost:8000
-NEXT_PUBLIC_APP_URL=http://localhost:3000
+NEXT_PUBLIC_LOCAL_API_URL=http://localhost:3001
 ```
 
 ## Installation
@@ -45,16 +42,17 @@ npm start
 ## Project Structure
 - `/app` - App router pages and layouts
 - `/components` - Reusable UI components
-- `/lib` - Utility functions, hooks and provider
+- `/lib` - Hook function and context
 - `/public` - Static assets
-- `/styles` - Global CSS and Tailwind config
+- `/utils` - Customize function
 
 ## Technologies Used
 - Next.js 16
-- React 18
+- React 19
 - Tailwind CSS
 - TypeScript
 - DaisyUI
+- Material Icons
 
 ## Contributing
 1. Fork the repository

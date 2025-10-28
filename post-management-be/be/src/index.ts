@@ -8,7 +8,7 @@ import usersRouter from "./routes/users.js";
 import postsRouter from "./routes/posts.js";
 
 const app = new Hono();
-const PORT = parseInt(process.env.PORT || "3003");
+const PORT = parseInt(process.env.PORT || "3001");
 
 app.use(
   "*",

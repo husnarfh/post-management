@@ -7,7 +7,7 @@ import {
   useState,
   useEffect,
 } from 'react'
-import Toast from './toast'
+import Toast from '../components/toast'
 
 interface ToastContextType {
   showToast: (msg: string, type?: 'success' | 'error' | 'info') => void
