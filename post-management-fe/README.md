@@ -13,7 +13,7 @@ A Next.js frontend application for the Post Management system (CRUD).
 - Backend API running (default: http://localhost:3001)
 
 ## Environment Setup
-Create a `.env.local` file with:
+Create a `.env` file with:
 ```env
 NEXT_PUBLIC_LOCAL_API_URL=http://localhost:3001
 ```
